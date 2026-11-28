@@ -1,0 +1,11 @@
+# Security headers for every static asset (Cloudflare Workers static assets; the file
+# itself is not served). Responses the Worker builds (admin, /api/enquiry, the 404 page)
+# set their own headers: worker/index.js SITE_HEADERS mirrors this block.
+# NEVER "no-referrer" here or in a <meta name="referrer">: a no-JavaScript form post would
+# then send "Origin: null" and the contact form would refuse it (403). check-html fails
+# the build on it.
+/*
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
